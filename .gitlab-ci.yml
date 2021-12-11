@@ -1,0 +1,37 @@
+variables:
+  REPO_NAME: git.ucode.space/Phil/gosh
+
+stages:
+  - test
+
+format:
+  image: golang:latest
+  before_script:
+    - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
+    - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
+    - cd $GOPATH/src/$REPO_NAME
+  stage: test
+  script:
+    - go fmt ./...
+    - go vet ./...
+
+gosec:
+  image: securego/gosec:latest
+  before_script:
+    - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
+    - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
+    - cd $GOPATH/src/$REPO_NAME
+  stage: test
+  script:
+    - gosec ./...
+
+test-build:
+  image: golang:latest
+  before_script:
+    - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
+    - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
+    - cd $GOPATH/src/$REPO_NAME
+  stage: test
+  script:
+    - go get -v -d .
+    - GOOS=linux CGO_ENABLED=0 go build -o app.test .
