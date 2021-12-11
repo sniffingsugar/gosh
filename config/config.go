@@ -1,3 +1,8 @@
 package config
 
-var URL string = "https://gly.one"
+var GConfig *Config
+
+type Config struct {
+	Created bool   `json:"created"`
+	Server  string `json:"server"`
+}

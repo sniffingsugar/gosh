@@ -10,6 +10,7 @@ import (
 	"os"
 
 	"git.ucode.space/Phil/gosh/config"
+	"git.ucode.space/Phil/gosh/utils"
 )
 
 type SUrl struct {
@@ -23,6 +24,8 @@ type RUrl struct {
 
 func main() {
 
+	utils.Check_Conf()
+
 	if len(os.Args) > 1 {
 		surl := SUrl{CLI: true, Surl: os.Args[1]}
 		b, err := json.Marshal(surl)
@@ -31,7 +34,7 @@ func main() {
 		}
 
 		client := &http.Client{}
-		resp, err := client.Post(config.URL+"/", "application/json", bytes.NewBuffer(b))
+		resp, err := client.Post(config.GConfig.Server, "application/json", bytes.NewBuffer(b))
 		if err != nil {
 			log.Fatal(err)
 		}
