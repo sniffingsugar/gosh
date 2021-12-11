@@ -41,7 +41,11 @@ func main() {
 
 		var eurl RUrl
 
-		json.Unmarshal(body, &eurl)
+		err = json.Unmarshal(body, &eurl)
+
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		fmt.Println(eurl.URL)
 
