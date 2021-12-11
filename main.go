@@ -53,10 +53,7 @@ func main() {
 		fmt.Println(eurl.URL)
 
 	} else {
-		fmt.Println("------ GLY.ONE CLI /v0.0.1 ------")
-		fmt.Println("--- Usage:")
-		fmt.Println("gly <url>  // Shorten a URL")
-		fmt.Println("---------------------------------")
+		utils.Info()
 	}
 
 }

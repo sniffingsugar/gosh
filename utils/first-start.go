@@ -25,7 +25,11 @@ func Check_Conf() {
 		fmt.Println("----- gosh CLI -----")
 		fmt.Println("Welcome to gosh config generator")
 		fmt.Print("Please enter your Server URI: ")
-		fmt.Scanln(&uri)
+		_, err := fmt.Scanln(&uri)
+
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		if !regexp.MustCompile(`^(http|https)://`).MatchString(uri) {
 			fmt.Println("Invalid URI | Must start with http:// or https://")
