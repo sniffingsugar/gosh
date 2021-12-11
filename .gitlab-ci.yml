@@ -16,13 +16,14 @@ format:
     - go vet ./...
 
 gosec:
-  image: securego/gosec:latest
+  image: golang:latest
   before_script:
     - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
     - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
     - cd $GOPATH/src/$REPO_NAME
   stage: test
   script:
+    - go install github.com/securego/gosec/v2/cmd/gosec@latest
     - go get -v -d .
     - gosec ./...
 
