@@ -29,19 +29,21 @@ func Check_Conf() {
 		_, err := fmt.Scanln(&uri)
 
 		if err != nil {
-			jsonFile.Close()
+			err = jsonFile.Close()
 			log.Fatal(err)
 		}
 
 		if !regexp.MustCompile(`^(http|https)://`).MatchString(uri) {
-			jsonFile.Close()
 			fmt.Println("Invalid URI | Must start with http:// or https://")
+			err = jsonFile.Close()
+			log.Fatal(err)
 			os.Exit(1)
 		}
 
 		CreateConfig(true, uri)
 
-		jsonFile.Close()
+		err = jsonFile.Close()
+		log.Fatal(err)
 		fmt.Println("Config file created, you can now run gosh")
 		os.Exit(0)
 	}
@@ -49,9 +51,12 @@ func Check_Conf() {
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
 	err = json.Unmarshal(byteValue, &config.GConfig)
-	jsonFile.Close()
-
 	if err != nil {
 		log.Fatal("No valid Json!")
+	}
+
+	err = jsonFile.Close()
+	if err != nil {
+		log.Fatal("Error closing file")
 	}
 }
