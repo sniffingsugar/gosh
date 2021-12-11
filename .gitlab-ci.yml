@@ -12,7 +12,7 @@ format:
     - cd $GOPATH/src/$REPO_NAME
   stage: test
   script:
-    - go fmt ./...
+    - gofmt -s -w .
     - go vet ./...
 
 gosec:
@@ -23,6 +23,7 @@ gosec:
     - cd $GOPATH/src/$REPO_NAME
   stage: test
   script:
+    - go get -v -d .
     - gosec ./...
 
 test-build:
