@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 
 	"git.ucode.space/Phil/gosh/config"
 )
@@ -27,14 +28,14 @@ func CreateConfig(cr bool, uri string) {
 		log.Fatal("No User home directory found")
 	}
 
-	if _, err := os.Stat(home + ("/.config/gosh")); os.IsNotExist(err) {
-		err := os.Mkdir(home+("/.config/gosh"), 0777)
+	if _, err := os.Stat(filepath.Clean(home + "/.config/gosh")); os.IsNotExist(err) {
+		err := os.Mkdir(filepath.Clean(home+"/.config/gosh"), 0750)
 		if err != nil {
 			log.Fatal(err.Error())
 		}
 	}
 
-	err = ioutil.WriteFile(home+("/.config/gosh/config.json"), filepayload, 0644)
+	err = ioutil.WriteFile(home+("/.config/gosh/config.json"), filepayload, 0600)
 
 	if err != nil {
 		log.Fatal(err.Error())
